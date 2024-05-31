@@ -4,6 +4,8 @@ Pergunta: Implemente um pipeline de CI/CD simples usando uma ferramenta de sua e
  Vamos partir de um servidor com o Jenkins instalado. Abaixo, apresento um exemplo de script Jenkinsfile,. Este script contém os steps (etapas) necessários para a implementação, como a compilação, teste e implantação.
 
 Nesse script temos as seguintes etapas:
+Jenkisfile , esta no repositorio 
+sercrição das etapas 
 
 1 Exibir Variáveis da Branch: Verifica e exibe o nome da branch em uso.
 
@@ -22,6 +24,7 @@ Nesse script temos as seguintes etapas:
 Cada etapa é importante para garantir a qualidade e a integridade do aplicativo em todas as fases do desenvolvimento e implantação.
 
 2. Tarefa de Arquitetura Kubernetes:
+imagem da arquitetura esta no repositorio tambem 
 a. Elabore um diagrama de arquitetura para um ambiente Kubernetes que inclua:
 i. Um cluster Kubernetes com pelo menos dois nós.
 ii. Um banco de dados (pode ser uma solução de banco de dados em contêiner, como MySQL, ou um serviço gerenciado na nuvem, como AWS RDS).
