@@ -1,0 +1,73 @@
+
+1. Tarefa de Pipeline CI/CD:
+Pergunta: Implemente um pipeline de CI/CD simples usando uma ferramenta de sua escolha (por exemplo, Jenkins, GitLab CI, Travis CI) para um aplicativo fictício. O pipeline deve incluir as etapas de compilação, teste e implantação em um cluster Kubernetes. Justifique a importância de cada etapa do pipeline.
+ Vamos partir de um servidor com o Jenkins instalado. Abaixo, apresento um exemplo de script Jenkinsfile,. Este script contém os steps (etapas) necessários para a implementação, como a compilação, teste e implantação.
+
+Nesse script temos as seguintes etapas:
+
+1 Exibir Variáveis da Branch: Verifica e exibe o nome da branch em uso.
+
+2 Configurar Versão: Define a versão do aplicativo com base na branch.
+
+3 Construir e Empurrar Docker Image: Compila o aplicativo usando um Dockerfile e cria uma imagem Docker.
+
+4 SonarQube Analysis: Executa a análise de código e testes unitários utilizando SonarQube (apenas para a branch homolog).
+
+5 Quality gate: Verifica se a análise do SonarQube passou nos critérios de qualidade (apenas para a branch homolog).
+
+6 Upload Docker Image: Faz o upload da imagem Docker para um repositório Nexus.
+
+7 Trigger Job: Dispara um segundo job configurado que atualiza o repositório de manifestos e o ArgoCD para criar o aplicativo no Kubernetes.
+
+Cada etapa é importante para garantir a qualidade e a integridade do aplicativo em todas as fases do desenvolvimento e implantação.
+
+2. Tarefa de Arquitetura Kubernetes:
+a. Elabore um diagrama de arquitetura para um ambiente Kubernetes que inclua:
+i. Um cluster Kubernetes com pelo menos dois nós.
+ii. Um banco de dados (pode ser uma solução de banco de dados em contêiner, como MySQL, ou um serviço gerenciado na nuvem, como AWS RDS).
+iii. Um serviço de balanceamento de carga para distribuir o tráfego entre os nós do cluster.
+iv. Networking adequado para garantir a comunicação segura entre os componentes.
+b. Forneça uma breve explicação de cada componente no diagrama, destacando decisões de design e considerações de segurança.
+
+No diagrama a seguir, possuímos todos os componentes solicitados e mais alguns para uma arquitetura robusta:
+Divisão por Região: Uma área localizada que contém um ou mais data centers.
+VCN (Virtual Cloud Network) e Sub-rede: Uma rede personalizável definida por software configurada em uma região, semelhante às redes tradicionais dos data centers locais de uma empresa.
+Balanceador de Carga: O serviço Oracle Cloud Infrastructure Load Balancing fornece distribuição automatizada de tráfego de um único ponto de entrada para vários servidores no back-end.
+Gateway NAT (Network Address Translation): Permite que recursos privados em uma VCN acessem hosts na internet, sem expor esses recursos a conexões provenientes da internet.
+Object Storage: Fornece acesso rápido a grandes volumes de dados estruturados e não estruturados de qualquer tipo de conteúdo, incluindo backups de bancos de dados, dados analíticos e conteúdo avançado, como imagens e vídeos.
+Com essas informações, temos um ambiente bem robusto:
+Load Balancer: Serviço de balanceamento de carga que distribui o tráfego entre os nós do cluster Kubernetes para garantir a distribuição uniforme do tráfego e alta disponibilidade.
+Segurança: Separação por região, Subnet e VCN, e regras de rede que controlam a comunicação entre Pods e outros serviços. Usar políticas de rede para garantir a segurança e o isolamento necessário entre diferentes partes do aplicativo.
+Gateways: Fazem as pontes entre a internet e as aplicações do cluster Kubernetes e banco de dados.
+Container Registry: Armazena imagens Docker ou artefatos de compilação.
+Segurança da Comunicação:
+TLS/SSL: Usar TLS/SSL para criptografar a comunicação entre clientes externos e o balanceador de carga, bem como entre o balanceador de carga e os nós do Kubernetes.
+Network Policies: Implementar políticas de rede para controlar o tráfego entre Pods e entre Pods e serviços externos, garantindo que apenas tráfego autorizado seja permitido.
+Configuração de DNS:
+Usar o CoreDNS para resolução de nomes dentro do cluster Kubernetes, facilitando a descoberta de serviços.
+3. Tarefa de Dashboard de Observabilidade:
+a. Elabore um Dashboard de Observabilidade de Infraestrutura Cloud que inclua:
+i. Listagem de recursos e utilização deles;
+ii. Painel de Alerta;
+iii. Filtros.
+b. Forneça uma breve explicação de cada componente do Dashboard, destacando decisões de design e considerações de performance.
+O Dashboard pode ser meramente ilustrativo e feito na ferramenta de sua preferência. Contudo, o conhecimento sobre ferramentas de observabilidade também será avaliado.
+Podemos utilizar o Prometheus juntamente com o Grafana para coletar métricas e criar dashboards. As métricas mais importantes podem incluir:
+CPU Utilization: Gráfico mostrando a utilização de CPU por nó.
+Memory Utilization: Gráfico mostrando a utilização de memória por nó.
+Pod Status: Número de Pods em diferentes estados (Running, Pending, Failed).
+Banco de Dados:
+Database Queries per Second: Gráfico mostrando o número de consultas por segundo.
+Database CPU Utilization: Gráfico mostrando a utilização de CPU do banco de dados.
+Database Memory Utilization: Gráfico mostrando a utilização de memória do banco de dados.
+Discos:
+Disk I/O: Gráfico mostrando operações de leitura/escrita por segundo.
+Disk Utilization: Percentual de uso dos discos.
+Painel de Alerta:
+Lista de alertas ativos, categorizados por severidade (Critical, Warning, Info).
+Gráfico de linha mostrando o número de alertas por dia na última semana.
+Filtros:
+Por Período de Tempo: Ajustar o período das métricas exibidas. Permite análises detalhadas e comparações ao longo do tempo.
+Por Recurso: Filtrar métricas por nó, banco de dados ou disco. Facilita focar em recursos específicos para investigação detalhada.
+
+
